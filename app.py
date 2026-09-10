@@ -40,6 +40,18 @@ def verify_api_key(x_api_key: str = Header(None)):
     if x_api_key != API_KEY:
         raise HTTPException(status_code=401, detail="Invalid or missing API key")
 
+# TEMPORARY DEBUG ENDPOINT - remove after fixing the key mismatch
+@app.get("/debug-key")
+def debug_key():
+    if not API_KEY:
+        return {"configured": False}
+    return {
+        "configured": True,
+        "length": len(API_KEY),
+        "first_4": API_KEY[:4],
+        "last_4": API_KEY[-4:],
+    }
+
 # ============================================================
 # INPUT SCHEMA
 # ============================================================
